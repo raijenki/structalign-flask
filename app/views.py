@@ -12,7 +12,7 @@ ALLOWED_EXTENSIONS = {'tif'}
 app.config['FULL_STATICPATH'] = FULL_STATICPATH
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['STATIC_FOLDER'] = STATIC_FOLDER
-URL = r'http://127.0.0.1:5000'
+URL = r'http://magstruct.herokuapp.com'
 
 @app.route('/')  
 def index():  
