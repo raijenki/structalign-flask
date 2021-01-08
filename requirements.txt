@@ -1,0 +1,10 @@
+flask
+numpy
+tifffile
+opencv-python
+matplotlib
+scikit-image
+scipy
+werkzeug
+gdal
+scipy

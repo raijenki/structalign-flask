@@ -1,0 +1,200 @@
+<html>
+    <head>
+        <title>Geovision: Editor</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <style>
+          .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+          }
+    
+          @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+              font-size: 3.5rem;
+            }
+          }
+
+          * {box-sizing: border-box;}
+
+          .img-magnifier-container {
+            position: relative;
+          }
+
+          .img-magnifier-glass {
+            position: absolute;
+            border: 3px solid #000;
+            border-radius: 50%;
+            cursor: none;
+            /*Set the size of the magnifier glass:*/
+            width: 150px;
+            height: 150px;
+          }
+        </style>
+                <link rel="stylesheet" href="{{url_for('static', filename='navbar.css')}}">
+
+<script>
+  function magnify(imgID, zoom) {
+    var img, glass, w, h, bw;
+    img = document.getElementById(imgID);
+    /*create magnifier glass:*/
+    glass = document.createElement("DIV");
+    glass.setAttribute("class", "img-magnifier-glass");
+    /*insert magnifier glass:*/
+    img.parentElement.insertBefore(glass, img);
+    /*set background properties for the magnifier glass:*/
+    glass.style.backgroundImage = "url('" + img.src + "')";
+    glass.style.backgroundRepeat = "no-repeat";
+    glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+    bw = 3;
+    w = glass.offsetWidth / 2;
+    h = glass.offsetHeight / 2;
+    /*execute a function when someone moves the magnifier glass over the image:*/
+    glass.addEventListener("mousemove", moveMagnifier);
+    img.addEventListener("mousemove", moveMagnifier);
+    /*and also for touch screens:*/
+    glass.addEventListener("touchmove", moveMagnifier);
+    img.addEventListener("touchmove", moveMagnifier);
+    function moveMagnifier(e) {
+      var pos, x, y;
+      /*prevent any other actions that may occur when moving over the image*/
+      e.preventDefault();
+      /*get the cursor's x and y positions:*/
+      pos = getCursorPos(e);
+      x = pos.x;
+      y = pos.y;
+      /*prevent the magnifier glass from being positioned outside the image:*/
+      if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+      if (x < w / zoom) {x = w / zoom;}
+      if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+      if (y < h / zoom) {y = h / zoom;}
+      /*set the position of the magnifier glass:*/
+      glass.style.left = (x - w) + "px";
+      glass.style.top = (y - h) + "px";
+      /*display what the magnifier glass "sees":*/
+      glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+    }
+    function getCursorPos(e) {
+      var a, x = 0, y = 0;
+      e = e || window.event;
+      /*get the x and y positions of the image:*/
+      a = img.getBoundingClientRect();
+      /*calculate the cursor's x and y coordinates, relative to the image:*/
+      x = e.pageX - a.left;
+      y = e.pageY - a.top;
+      /*consider any page scrolling:*/
+      x = x - window.pageXOffset;
+      y = y - window.pageYOffset;
+      return {x : x, y : y};
+    }
+  }
+  </script>
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Alignments</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item active">
+                <a class="nav-link" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" aria-current="page" href="#" tabindex="-1">Editor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">FAQ</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="img-magnifier-container">
+            <img id="fused" class="img-fluid" src="{{url_for('static', filename=imgdir)}}" /> 
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="nav-item"><a data-toggle="tab" aria-controls="parameters" role="tab" href="#parameters" class="nav-link active">Params</a></li>
+            <li role="presentation" class="nav-item"><a data-toggle="tab" aria-controls="export" role="tab" href="#export" class="nav-link">Export</a></li>
+          </ul>
+        
+          <div class="tab-content">
+            <div id="parameters" class="tab-pane active">
+              <br>
+              <form action="{{ url_for('refresh_editor') }}" method="post">
+                <input id="uuid_fname" name="uuid_fname" type="hidden" value={{id}}>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput1" class="form-label">No. of Wavelet Scales</label>
+                  <input type="text" class="form-control" id="usrnscale" placeholder="{{usr_nscale}}" name="usrnscale">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput2" class="form-label">No. of filter orientations</label>
+                  <input type="text" class="form-control" id="usrnorient" placeholder="{{usr_norient}}" name="usrnorient">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput3" class="form-label">Wavelength of smallest scale filter</label>
+                  <input type="text" class="form-control" id="usrminWaveLength" placeholder="{{usr_minWaveLength}}" name="usrminWaveLength">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput4" class="form-label">Scaling factor between successive filters</label>
+                  <input type="text" class="form-control" id="usrmult" placeholder="{{usr_mult}}" name="usrmult">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput5" class="form-label">Ratio of the stdev. of the Gaussian</label>
+                  <input type="text" class="form-control" id="usrsigmaOnf" placeholder="{{usr_sigmaOnf}}" name="usrsigmaOnf">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput6" class="form-label">No. of stdevs. of the Noise Energy</label>
+                  <input type="text" class="form-control" id="usrk" placeholder="{{usr_k}}" name="usrk">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput7" class="form-label">Polarity</label>
+                  <input type="text" class="form-control" id="usrpolarity" placeholder="{{usr_polarity}}" name="usrpolarity">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleFormControlInput8" class="form-label">Noise Method</label>
+                  <input type="text" class="form-control" id="usrnoiseMethod" placeholder="{{usr_noiseMethod}}" name="usrnoiseMethod">
+                </div>
+                <div class="mb-3">
+              <button type="submit" class="btn btn-outline-primary btn-sm">Reload</button>
+            </div>
+            </form>
+            </div>
+
+            <div id="export" class="tab-pane fade">
+              <div class="container"><br>
+                <div class="mb-3">
+                  <div class="col-6"><a href="/makeshp/{{id}}" target="blank"><button type="button" class="btn btn-outline-primary btn-sm">Export shapefile</button></div>
+                </div>
+              <div class="mb-3">
+                <div class="col-6"><a href="/makepng/{{id}}" target="blank"><button type="button" class="btn btn-outline-primary btn-sm">Download PNG</button></a></div>
+              </div>                
+                <div class="mb-3">
+                  <div class="col-6"><a href="/maketif/{{id}}" target="blank"><button type="button" class="btn btn-outline-primary btn-sm">Download GTIFF</button></a></div>
+                </div>              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <script>
+      magnify("fused", 6);
+    </script> 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
