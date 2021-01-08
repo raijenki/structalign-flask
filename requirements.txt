@@ -7,4 +7,6 @@ scikit-image
 scipy
 werkzeug
 gdal
+gunicorn
+gevent
 scipy
