@@ -4,7 +4,7 @@ click==7.1.2
 cycler==0.10.0
 decorator==4.4.2
 Flask==1.1.2
-GDAL==3.2.0
+GDAL==2.4.0
 imageio==2.9.0
 itsdangerous==1.1.0
 Jinja2==2.11.2
