@@ -28,7 +28,7 @@ def calculate(imgfile, uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, u
     usr_noiseMethod = int(usr_noiseMethod)
     
     # Names var for later use
-    STATIC_FOLDER = '/app/static/'
+    STATIC_FOLDER = '/app/app/static/'
     pngfile = os.path.join(STATIC_FOLDER, uuid_fname + '_file.png') 
     alignedname = os.path.join(STATIC_FOLDER, uuid_fname + '_align.png') 
     fusedname = os.path.join(STATIC_FOLDER, uuid_fname + '_fused.png') 
@@ -92,8 +92,8 @@ def calculate(imgfile, uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, u
     cv2.imwrite(fusedname, img1)
 
 def make_shp(imgname):
-    UPLOAD_FOLDER = '/app/uploads/'
-    STATIC_FOLDER = '/app/static/'
+    UPLOAD_FOLDER = '/app/app/uploads/'
+    STATIC_FOLDER = '/app/app/static/'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     origname = UPLOAD_FOLDER + imgname + '.tif'
     alignedname = STATIC_FOLDER + imgname + '_align.png'
