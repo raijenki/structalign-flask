@@ -1,3 +1,4 @@
+gunicorn
 flask
 numpy
 tifffile
@@ -7,6 +8,5 @@ scikit-image
 scipy
 werkzeug
 gdal
-gunicorn
 gevent
 scipy
