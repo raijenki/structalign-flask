@@ -7,5 +7,5 @@ matplotlib
 scikit-image
 scipy
 werkzeug
-gdal==2.4.0
+gdal==2.4.1
 scipy
