@@ -21,6 +21,6 @@ PyWavelets
 scikit-image
 scipy==1.5.4
 six==1.15.0
-tifffile==2020.12.8
+tifffile
 Werkzeug==1.0.1
 wincertstore==0.2
