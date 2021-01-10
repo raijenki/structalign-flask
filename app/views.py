@@ -5,7 +5,7 @@ import uuid
 from werkzeug.utils import secure_filename
 from structural import calculate, make_gtif, make_shp
 
-UPLOAD_FOLDER = '/tmp/'
+UPLOAD_FOLDER = '/app/tmp/'
 STATIC_FOLDER = '/app/app/static/'
 ALLOWED_EXTENSIONS = {'tif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -27,7 +27,7 @@ def upload():
             uuid_fname = str(uuid.uuid1())
             uuid_fname_tif = uuid_fname + '.tif'
             f = request.files['file']  
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], uuid_fname_tif))
+            f.save(os.path.join(app.config['STATIC_FOLDER'], uuid_fname_tif))
     return redirect(url_for('editor', uuid_fname=uuid_fname, usr_nscale=5, usr_norient=6, usr_minWaveLength=3, usr_mult=2.1, usr_sigmaOnf=0.55, usr_k=20.0, usr_polarity=0, usr_noiseMethod=-1))
 
 @app.route('/editor/<uuid_fname>?usr_nscale=<usr_nscale>&usr_norient=<usr_norient>&usr_minWaveLength=<usr_minWaveLength>&usr_mult=<usr_mult>&usr_sigmaOnf=<usr_sigmaOnf>&usr_k=<usr_k>&usr_polarity=<usr_polarity>&usr_noiseMethod=<usr_noiseMethod>', methods=['GET'])  
@@ -35,7 +35,7 @@ def editor(uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, usr_mult, usr
     #if request.method == 'POST':  
     uuid_fname_tif = uuid_fname + '.tif'
     uuid_fname_png = uuid_fname + '_fused.png'
-    fimg = os.path.join(app.config['UPLOAD_FOLDER'], uuid_fname_tif)
+    fimg = os.path.join(app.config['STATIC_FOLDER'], uuid_fname_tif)
     calculate(fimg, uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, usr_mult, usr_sigmaOnf, usr_k, usr_polarity, usr_noiseMethod)
     return render_template("editor.html", imgdir=uuid_fname_png, id=uuid_fname, usr_nscale=usr_nscale, usr_norient=usr_norient, usr_minWaveLength=usr_minWaveLength, usr_mult=usr_mult, usr_sigmaOnf=usr_sigmaOnf, usr_k=usr_k, usr_polarity=usr_polarity, usr_noiseMethod=usr_noiseMethod)  
 
@@ -81,7 +81,7 @@ def return_shp(uuid_fname):
 
 @app.route('/download/<uuid_fname>', methods=['GET'])
 def return_file(uuid_fname):
-    safe_path = safe_join(app.config["UPLOAD_FOLDER"], uuid_fname)
+    safe_path = safe_join(app.config["STATIC_FOLDER"], uuid_fname)
     try:
 	    return send_file(safe_path, as_attachment=True)
     except FileNotFoundError:
