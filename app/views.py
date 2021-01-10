@@ -5,7 +5,7 @@ import uuid
 from werkzeug.utils import secure_filename
 from structural import calculate, make_gtif, make_shp
 
-UPLOAD_FOLDER = '/app/uploads/'
+UPLOAD_FOLDER = '/app/tmp/'
 STATIC_FOLDER = '/app/static/'
 FULL_STATICPATH = '/app/static/'
 ALLOWED_EXTENSIONS = {'tif'}
