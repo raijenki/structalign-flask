@@ -6,10 +6,8 @@ from werkzeug.utils import secure_filename
 from structural import calculate, make_gtif, make_shp
 
 UPLOAD_FOLDER = '/app/tmp/'
-STATIC_FOLDER = '/app/static/'
-FULL_STATICPATH = '/app/static/'
+STATIC_FOLDER = '/app/app/static/'
 ALLOWED_EXTENSIONS = {'tif'}
-app.config['FULL_STATICPATH'] = FULL_STATICPATH
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['STATIC_FOLDER'] = STATIC_FOLDER
 URL = r'http://magstruct.herokuapp.com'
@@ -83,7 +81,7 @@ def return_shp(uuid_fname):
 
 @app.route('/download/<uuid_fname>', methods=['GET'])
 def return_file(uuid_fname):
-    safe_path = safe_join(app.config["FULL_STATICPATH"], uuid_fname)
+    safe_path = safe_join(app.config["UPLOAD_FOLDER"], uuid_fname)
     try:
 	    return send_file(safe_path, as_attachment=True)
     except FileNotFoundError:

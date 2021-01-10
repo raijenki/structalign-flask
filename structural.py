@@ -28,10 +28,10 @@ def calculate(imgfile, uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, u
     usr_noiseMethod = int(usr_noiseMethod)
     
     # Names var for later use
-    STATIC_FOLDER = '/app/app/static/'
-    pngfile = os.path.join(STATIC_FOLDER, uuid_fname + '_file.png') 
-    alignedname = os.path.join(STATIC_FOLDER, uuid_fname + '_align.png') 
-    fusedname = os.path.join(STATIC_FOLDER, uuid_fname + '_fused.png') 
+    TMP_FOLDER = '/app/tmp/'
+    pngfile = os.path.join(TMP_FOLDER, uuid_fname + '_file.png') 
+    alignedname = os.path.join(TMP_FOLDER, uuid_fname + '_align.png') 
+    fusedname = os.path.join(TMP_FOLDER, uuid_fname + '_fused.png') 
 
     # Import file
     data = tifffile.imread(imgfile)
@@ -92,17 +92,17 @@ def calculate(imgfile, uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, u
     cv2.imwrite(fusedname, img1)
 
 def make_shp(imgname):
-    UPLOAD_FOLDER = '/app/app/uploads/'
-    STATIC_FOLDER = '/app/app/static/'
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    origname = UPLOAD_FOLDER + imgname + '.tif'
-    alignedname = STATIC_FOLDER + imgname + '_align.png'
-    zipname =  STATIC_FOLDER + imgname + '.zip'
+    TMP_FOLDER = '/app/tmp/'
+    STATIC_FOLDER = '/app/static/'
+    app.config['TMP_FOLDER'] = TMP_FOLDER
+    origname = TMP_FOLDER + imgname + '.tif'
+    alignedname = TMP_FOLDER + imgname + '_align.png'
+    zipname =  TMP_FOLDER + imgname + '.zip'
 
-    ziplist = [ STATIC_FOLDER + imgname + '_shape.dbf',
-    STATIC_FOLDER + imgname + '_shape.prj',
-    STATIC_FOLDER + imgname + '_shape.shp',
-    STATIC_FOLDER + imgname + '_shape.shx'
+    ziplist = [ TMP_FOLDER + imgname + '_shape.dbf',
+    TMP_FOLDER + imgname + '_shape.prj',
+    TMP_FOLDER + imgname + '_shape.shp',
+    TMP_FOLDER + imgname + '_shape.shx'
     ]
 
     source = gdal.Open(origname)
@@ -112,7 +112,7 @@ def make_shp(imgname):
     dst_layername = imgname + "_shape"
 
     drv = ogr.GetDriverByName("ESRI Shapefile")
-    dst_ds = drv.CreateDataSource( STATIC_FOLDER + dst_layername + ".shp" )
+    dst_ds = drv.CreateDataSource( TMP_FOLDER + dst_layername + ".shp" )
     dst_layer = dst_ds.CreateLayer(dst_layername, proj )
     gdal.Polygonize( srcband, None, dst_layer, -1, [], callback=None )
     dst_ds.FlushCache()
@@ -123,12 +123,12 @@ def make_shp(imgname):
             zip.write(file)
 
 def make_gtif(imgname):
-    UPLOAD_FOLDER = 'app\\uploads\\'
-    STATIC_FOLDER = 'app\\static\\'
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    origname = os.path.join(app.config['UPLOAD_FOLDER'], imgname + '.tif')
-    fusedname = os.path.join(STATIC_FOLDER, imgname + '_fused.png') 
-    gtif = os.path.join(STATIC_FOLDER, imgname + '_geotiff.tif') 
+    UPLOAD_FOLDER = '/app/uploads/'
+    STATIC_FOLDER = '/app/static/'
+    app.config['TMP_FOLDER'] = TMP_FOLDER
+    origname = os.path.join(app.config['TMP_FOLDER'], imgname + '.tif')
+    fusedname = os.path.join(TMP_FOLDER, imgname + '_fused.png') 
+    gtif = os.path.join(TMP_FOLDER, imgname + '_geotiff.tif') 
 
 
     source = gdal.Open(origname)
