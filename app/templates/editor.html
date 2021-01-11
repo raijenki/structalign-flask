@@ -78,42 +78,40 @@
               <form action="{{ url_for('refresh_editor') }}" method="post">
                 <input id="uuid_fname" name="uuid_fname" type="hidden" value={{id}}>
                 <div class="mb-3">
-                  <div class="form-floating">
+                  <label for="usrnscale" class="form-label">No. of Wavelet Scales</label>
                   <input type="text" class="form-control" id="usrnscale" value="{{usr_nscale}}" name="usrnscale">
-                  <label for="usrnscale">No. of Wavelet Scales</label>
-                  </div>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="mb-3">
+                  <label for="usrnorient" class="form-label">No. of filter orientations</label>
                   <input type="text" class="form-control" id="usrnorient" value="{{usr_norient}}" name="usrnorient">
-                  <label for="usrnorient">No. of filter orientations</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="mb-3">
+                  <label for="usrminWaveLength" class="form-label">Wavelength of smallest scale filter</label>
                   <input type="text" class="form-control" id="usrminWaveLength" value="{{usr_minWaveLength}}" name="usrminWaveLength">
-                  <label for="usrminWaveLength">Wavelength of smallest scale filter</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="mb-3">
+                  <label for="usrmult" class="form-label">Scaling factor between successive filters</label>
                   <input type="text" class="form-control" id="usrmult" value="{{usr_mult}}" name="usrmult">
-                  <label for="usrmult">Scaling factor between successive filters</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="mb-3">
+                  <label for="usrsigmaOnf" class="form-label">Ratio of the stdev. of the Gaussian</label>
                   <input type="text" class="form-control" id="usrsigmaOnf" value="{{usr_sigmaOnf}}" name="usrsigmaOnf">
-                  <label for="usrsigmaOnf">Ratio of the stdev. of the Gaussian</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="mb-3">
+                  <label for="usrk" class="form-label">No. of stdevs. of the Noise Energy</label>
                   <input type="text" class="form-control" id="usrk" value="{{usr_k}}" name="usrk">
-                  <label for="usrk">No. of stdevs. of the Noise Energy</label>
                 </div>
-                <div class="form-floating mb-3">
-                  <select class="form-select" id="usrpolarity" aria-label="Floating label select">
+                <div class="mb-3">
+                  <label for="usrpolarity" class="form-label">Polarity</label>
+                  <select class="form-select" id="usrpolarity">
                     <option value="0" selected>0</option>
                     <option value="-1">-1</option>
                     <option value="1">1</option>
                   </select>
-                  <label for="usrpolarity" class="form-label">Polarity</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="mb-3">
+                  <label for="usrnoiseMethod" class="form-label">Noise Method</label>
                   <input type="text" class="form-control" id="usrnoiseMethod" value="{{usr_noiseMethod}}" name="usrnoiseMethod">
-                  <label for="usrnoiseMethod">Noise Method</label>
                 </div>
                 <div class="mb-3">
               <button type="submit" class="btn btn-outline-primary btn-sm">Reload</button>
