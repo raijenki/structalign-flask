@@ -99,6 +99,7 @@ def make_shp(imgname):
     app.config['STATIC_FOLDER'] = STATIC_FOLDER
     origname = STATIC_FOLDER + imgname + '.tif'
     alignedname = STATIC_FOLDER + imgname + '_blackalign.png'
+    alignedname_tif = STATIC_FOLDER + imgname + '_blackalign.tif'
     zipname =  STATIC_FOLDER + imgname + '.zip'
 
     ziplist = [ STATIC_FOLDER + imgname + '_shape.dbf',
@@ -108,22 +109,19 @@ def make_shp(imgname):
     ]
 
     source = gdal.Open(origname)
+    srcbnd = np.array(source.GetRasterBand(1).ReadAsArray())
     alignments = gdal.Open(alignedname)
-    srcband = alignments.GetRasterBand(1)
+    alignband = np.array(alignments.GetRasterBand(1).ReadAsArray())
 
-    metadata = source.GetMetadata()
-    geoTrans = source.GetGeoTransform()
-    
-    originX = geoTrans[0]
-    originY = geoTrans[3]
-    pixelWidth = geoTrans[1]
-    pixelHeight = geoTrans[5]
-    cols = source.RasterXSize
-    rows = source.RasterYSize
-    srs = osr.SpatialReference()
-    srs.ImportFromWkt(source.GetProjection())
+    dst_ds = gdal.GetDriverByName('GTiff').Create(alignedname_tif, srcbnd.shape[1], srcbnd.shape[0], 3, gdal.GDT_Byte, options = ['PHOTOMETRIC=RGB', 'PROFILE=GeoTIFF',])
+    gdalnumeric.CopyDatasetInfo(source, dst_ds)
+    dst_ds.GetRasterBand(1).WriteArray(alignband)
+    dst_ds.FlushCache()
 
+    src_ds = dst_ds
+    proj = osr.SpatialReference(wkt=src_ds.GetProjection())
     dst_layername = imgname + "_shape"
+    srcband = src_ds.GetRasterBand(1)
 
     drv = ogr.GetDriverByName("ESRI Shapefile")
     dst_ds = drv.CreateDataSource( STATIC_FOLDER + dst_layername + ".shp" )
@@ -131,9 +129,6 @@ def make_shp(imgname):
     gdal.Polygonize( srcband, None, dst_layer, -1, [], callback=None )
     
     dst_ds.FlushCache()
-    dst_ds = None
-    source = None
-
 
     with ZipFile(zipname,'w') as zip: 
         for file in ziplist:
