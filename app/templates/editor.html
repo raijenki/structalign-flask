@@ -77,37 +77,41 @@
               <br>
               <form action="{{ url_for('refresh_editor') }}" method="post">
                 <input id="uuid_fname" name="uuid_fname" type="hidden" value={{id}}>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput1" class="form-label">No. of Wavelet Scales</label>
-                  <input type="text" class="form-control" id="usrnscale" placeholder="{{usr_nscale}}" name="usrnscale">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="usrnscale" value="{{usr_nscale}}" name="usrnscale">
+                  <label for="usrnscale">No. of Wavelet Scales</label>
                 </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput2" class="form-label">No. of filter orientations</label>
-                  <input type="text" class="form-control" id="usrnorient" placeholder="{{usr_norient}}" name="usrnorient">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="usrnorient" value="{{usr_norient}}" name="usrnorient">
+                  <label for="usrnorient">No. of filter orientations</label>
                 </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput3" class="form-label">Wavelength of smallest scale filter</label>
-                  <input type="text" class="form-control" id="usrminWaveLength" placeholder="{{usr_minWaveLength}}" name="usrminWaveLength">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="usrminWaveLength" value="{{usr_minWaveLength}}" name="usrminWaveLength">
+                  <label for="usrminWaveLength">Wavelength of smallest scale filter</label>
                 </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput4" class="form-label">Scaling factor between successive filters</label>
-                  <input type="text" class="form-control" id="usrmult" placeholder="{{usr_mult}}" name="usrmult">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="usrmult" value="{{usr_mult}}" name="usrmult">
+                  <label for="usrmult">Scaling factor between successive filters</label>
                 </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput5" class="form-label">Ratio of the stdev. of the Gaussian</label>
-                  <input type="text" class="form-control" id="usrsigmaOnf" placeholder="{{usr_sigmaOnf}}" name="usrsigmaOnf">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="usrsigmaOnf" value="{{usr_sigmaOnf}}" name="usrsigmaOnf">
+                  <label for="usrsigmaOnf">Ratio of the stdev. of the Gaussian</label>
                 </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput6" class="form-label">No. of stdevs. of the Noise Energy</label>
-                  <input type="text" class="form-control" id="usrk" placeholder="{{usr_k}}" name="usrk">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="usrk" value="{{usr_k}}" name="usrk">
+                  <label for="usrk">No. of stdevs. of the Noise Energy</label>
                 </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput7" class="form-label">Polarity</label>
-                  <input type="text" class="form-control" id="usrpolarity" placeholder="{{usr_polarity}}" name="usrpolarity">
+                <div class="form-floating mb-3">
+                  <select class="form-select" id="usrpolarity" aria-label="Floating label select">
+                    <option value="0" selected>0</option>
+                    <option value="-1">-1</option>
+                    <option value="1">1</option>
+                  </select>
+                  <label for="usrpolarity">Polarity</label>
                 </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlInput8" class="form-label">Noise Method</label>
-                  <input type="text" class="form-control" id="usrnoiseMethod" placeholder="{{usr_noiseMethod}}" name="usrnoiseMethod">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="usrnoiseMethod" value="{{usr_noiseMethod}}" name="usrnoiseMethod">
+                  <label for="usrnoiseMethod">Noise Method</label>
                 </div>
                 <div class="mb-3">
               <button type="submit" class="btn btn-outline-primary btn-sm">Reload</button>

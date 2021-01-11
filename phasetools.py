@@ -1,3 +1,6 @@
+# This code is part of phasepack.
+# Credits to https://github.com/alimuldal/
+
 import numpy as np
 from scipy.fftpack import fftshift, ifftshift, fft2, ifft2
 
