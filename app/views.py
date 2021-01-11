@@ -3,7 +3,7 @@ from app import app
 import os
 import uuid
 from werkzeug.utils import secure_filename
-from structural import calculate, make_gtif, make_shp
+from structural import calculate, make_gtif, make_shp, make_alignedtif
 
 UPLOAD_FOLDER = '/app/tmp/'
 STATIC_FOLDER = '/app/app/static/'
