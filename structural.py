@@ -110,15 +110,26 @@ def make_shp(imgname):
     source = gdal.Open(origname)
     alignments = gdal.Open(alignedname)
     srcband = alignments.GetRasterBand(1)
+
+    metadata = source.GetMetadata()
     geoTrans = source.GetGeoTransform()
-    proj = osr.SpatialReference(wkt=source.GetProjection())
+    
+    originX = geoTrans[0]
+    originY = geoTrans[3]
+    pixelWidth = geoTrans[1]
+    pixelHeight = geoTrans[5]
+    cols = source.RasterXSize
+    rows = source.RasterYSize
+    srs = osr.SpatialReference()
+    srs.ImportFromWkt(source.GetProjection())
+
     dst_layername = imgname + "_shape"
 
     drv = ogr.GetDriverByName("ESRI Shapefile")
     dst_ds = drv.CreateDataSource( STATIC_FOLDER + dst_layername + ".shp" )
-    gdalnumeric.CopyDatasetInfo(source, dst_ds)
-    dst_layer = dst_ds.CreateLayer(dst_layername, proj )
+    dst_layer = dst_ds.CreateLayer(dst_layername, srs, geom_type=ogr.wkbMultiLineString)
     gdal.Polygonize( srcband, None, dst_layer, -1, [], callback=None )
+    
     dst_ds.FlushCache()
     dst_ds = None
     source = None
