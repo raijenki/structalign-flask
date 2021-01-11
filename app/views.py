@@ -79,6 +79,15 @@ def return_shp(uuid_fname):
     except FileNotFoundError:
         abort(404)
 
+@app.route('/makeatif/<uuid_fname>')
+def return_atif(uuid_fname):
+    try:
+        uuid_fname_agtif = uuid_fname + '_align.tif'
+        make_alignedtif(uuid_fname)
+        return render_template("download.html", url=URL, file=uuid_fname_agtif)
+    except FileNotFoundError:
+        abort(404)
+
 @app.route('/download/<uuid_fname>', methods=['GET'])
 def return_file(uuid_fname):
     safe_path = safe_join(app.config["STATIC_FOLDER"], uuid_fname)

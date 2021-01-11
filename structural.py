@@ -155,3 +155,22 @@ def make_gtif(imgname):
     dst_ds.GetRasterBand(3).WriteArray(B)
     dst_ds.FlushCache()
     dst_ds = None
+
+def make_alignedtif(imgname):
+    STATIC_FOLDER = '/app/app/static/'
+    app.config['STATIC_FOLDER'] = STATIC_FOLDER
+    origname = STATIC_FOLDER + imgname + '.tif'
+    alignedname = STATIC_FOLDER + imgname + '_align.png'
+    alignedname_tif = STATIC_FOLDER + imgname + '_align.tif'
+
+
+    source = gdal.Open(origname)
+    srcbnd = np.array(source.GetRasterBand(1).ReadAsArray())
+    alignments = gdal.Open(alignedname)
+    alignband = np.array(alignments.GetRasterBand(1).ReadAsArray())
+
+    dst_ds = gdal.GetDriverByName('GTiff').Create(alignedname_tif, srcbnd.shape[1], srcbnd.shape[0], 3, gdal.GDT_Byte, options = ['PHOTOMETRIC=RGB', 'PROFILE=GeoTIFF',])
+    gdalnumeric.CopyDatasetInfo(source, dst_ds)
+    dst_ds.GetRasterBand(1).WriteArray(alignband)
+    dst_ds.GetRasterBand(1).SetNoDataValue(255)
+    dst_ds.FlushCache()

@@ -1,5 +1,7 @@
 # structalign-flask
 
+** Code is not optimized for production yet**
+
 This is a flask application built for structural alignment detections on the premise of Geophysics as a Service. It uses the methodology described by Holden et al. (2012) as basis of its algorithm. The pipeline consists into image grayscaling, calculating standard deviation and entropy, phase symmetry, thresholding and skeletonization.
 
  The inputs are geotiff files while it outputs shapefiles or fused geotiff files. An example of how it works can be seen here: [input](https://i.imgur.com/ktoOW5fh.jpg) and [output](https://i.imgur.com/yi6wGZnh.jpg) 
