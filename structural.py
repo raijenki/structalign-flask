@@ -31,7 +31,7 @@ def calculate(imgfile, uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, u
     TMP_FOLDER = '/app/app/static/'
     pngfile = os.path.join(TMP_FOLDER, uuid_fname + '_file.png') 
     alignedname = os.path.join(TMP_FOLDER, uuid_fname + '_align.png')
-    alignedblackname = os.path.join(TMP_FOLDER, uuid_fname + '_align.png')  
+    alignedblackname = os.path.join(TMP_FOLDER, uuid_fname + '_blackalign.png')  
     fusedname = os.path.join(TMP_FOLDER, uuid_fname + '_fused.png') 
 
     # Import file
@@ -98,7 +98,7 @@ def make_shp(imgname):
     STATIC_FOLDER = '/app/app/static/'
     app.config['STATIC_FOLDER'] = STATIC_FOLDER
     origname = STATIC_FOLDER + imgname + '.tif'
-    alignedname = STATIC_FOLDER + imgname + '_align.png'
+    alignedname = STATIC_FOLDER + imgname + '_blackalign.png'
     zipname =  STATIC_FOLDER + imgname + '.zip'
 
     ziplist = [ STATIC_FOLDER + imgname + '_shape.dbf',
@@ -116,11 +116,12 @@ def make_shp(imgname):
 
     drv = ogr.GetDriverByName("ESRI Shapefile")
     dst_ds = drv.CreateDataSource( STATIC_FOLDER + dst_layername + ".shp" )
-    dst_ds = dst_ds.SetGeoTransform(geoTrans)
+    gdalnumeric.CopyDatasetInfo(source, dst_ds)
     dst_layer = dst_ds.CreateLayer(dst_layername, proj )
     gdal.Polygonize( srcband, None, dst_layer, -1, [], callback=None )
     dst_ds.FlushCache()
     dst_ds = None
+    source = None
 
 
     with ZipFile(zipname,'w') as zip: 
