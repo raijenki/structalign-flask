@@ -68,7 +68,7 @@
 
         <div class="col-md-4">
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="nav-item"><a data-toggle="tab" aria-controls="parameters" role="tab" href="#parameters" class="nav-link active">Params</a></li>
+            <li role="presentation" class="nav-item"><a data-toggle="tab" aria-controls="parameters" role="tab" href="#parameters" class="nav-link active">Parameters</a></li>
             <li role="presentation" class="nav-item"><a data-toggle="tab" aria-controls="export" role="tab" href="#export" class="nav-link">Export</a></li>
           </ul>
         
@@ -80,6 +80,9 @@
                 <div class="mb-3">
                   <label for="usrnscale" class="form-label">No. of Wavelet Scales</label>
                   <input type="text" class="form-control" id="usrnscale" value="{{usr_nscale}}" name="usrnscale">
+                  <small id="usrnscaleHelp" class="form-text text-muted">
+                    Try values from 3 to 6.
+                  </small>
                 </div>
                 <div class="mb-3">
                   <label for="usrnorient" class="form-label">No. of filter orientations</label>
@@ -100,14 +103,23 @@
                 <div class="mb-3">
                   <label for="usrk" class="form-label">No. of stdevs. of the Noise Energy</label>
                   <input type="text" class="form-control" id="usrk" value="{{usr_k}}" name="usrk">
+                  <small id="usrkHelp" class="form-text text-muted">
+                    For noisy images, you may want this value as higher as 10 or 20.
+                  </small>
                 </div>
                 <div class="mb-3">
                   <label for="usrpolarity" class="form-label">Polarity</label>
                   <input type="text" class="form-control" id="usrk" value="{{usr_polarity}}" name="usrpolarity">
+                  <small id="usrpolarityHelp" class="form-text text-muted">
+                    Use -1 for dark features, 1 for bright features or 0 for both.
+                  </small>
                 </div>
                 <div class="mb-3">
                   <label for="usrnoiseMethod" class="form-label">Noise Method</label>
                   <input type="text" class="form-control" id="usrnoiseMethod" value="{{usr_noiseMethod}}" name="usrnoiseMethod">
+                  <small id="usrnoiseMethodHelp" class="form-text text-muted">
+                    Use -2 for the mode, -1 for the median and >= 0 for fixed noise threshold.
+                  </small>
                 </div>
                 <div class="mb-3">
               <button type="submit" class="btn btn-outline-primary btn-sm">Reload</button>
