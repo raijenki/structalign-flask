@@ -30,7 +30,8 @@ def calculate(imgfile, uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, u
     # Names var for later use
     TMP_FOLDER = '/app/app/static/'
     pngfile = os.path.join(TMP_FOLDER, uuid_fname + '_file.png') 
-    alignedname = os.path.join(TMP_FOLDER, uuid_fname + '_align.png') 
+    alignedname = os.path.join(TMP_FOLDER, uuid_fname + '_align.png')
+    alignedblackname = os.path.join(TMP_FOLDER, uuid_fname + '_align.png')  
     fusedname = os.path.join(TMP_FOLDER, uuid_fname + '_fused.png') 
 
     # Import file
@@ -60,13 +61,15 @@ def calculate(imgfile, uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, u
 
     # Skeletonize and invert colors
     skeleton = skeletonize(global_otsu, method='lee')
+    plt.imsave(alignedblackname, skeleton, cmap=plt.cm.gray, dpi=300)
+
     skeleton[skeleton == 255] = 1
     skeleton[skeleton == 0] = 255
     skeleton[skeleton == 1] = 0
 
     # Save intermediate files as png
     plt.imsave(pngfile, data)
-    plt.imsave(alignedname, skeleton, cmap=plt.cm.gray)
+    plt.imsave(alignedname, skeleton, cmap=plt.cm.gray, dpi=300)
 
     # Join both images  for display
     img1 = cv2.imread(pngfile)
@@ -107,14 +110,17 @@ def make_shp(imgname):
     source = gdal.Open(origname)
     alignments = gdal.Open(alignedname)
     srcband = alignments.GetRasterBand(1)
+    geoTrans = source.GetGeoTransform()
     proj = osr.SpatialReference(wkt=source.GetProjection())
     dst_layername = imgname + "_shape"
 
     drv = ogr.GetDriverByName("ESRI Shapefile")
     dst_ds = drv.CreateDataSource( STATIC_FOLDER + dst_layername + ".shp" )
+    dst_ds = dst_ds.SetGeoTransform(geoTrans)
     dst_layer = dst_ds.CreateLayer(dst_layername, proj )
     gdal.Polygonize( srcband, None, dst_layer, -1, [], callback=None )
     dst_ds.FlushCache()
+    dst_ds = None
 
 
     with ZipFile(zipname,'w') as zip: 
@@ -141,3 +147,4 @@ def make_gtif(imgname):
     dst_ds.GetRasterBand(2).WriteArray(G)
     dst_ds.GetRasterBand(3).WriteArray(B)
     dst_ds.FlushCache()
+    dst_ds = None
