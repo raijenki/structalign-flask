@@ -125,7 +125,7 @@ def make_shp(imgname):
 
     drv = ogr.GetDriverByName("ESRI Shapefile")
     dst_ds = drv.CreateDataSource( STATIC_FOLDER + dst_layername + ".shp" )
-    dst_layer = dst_ds.CreateLayer(dst_layername, srs, geom_type=ogr.wkbMultiLineString)
+    dst_layer = dst_ds.CreateLayer(dst_layername, proj, geom_type=ogr.wkbMultiLineString)
     gdal.Polygonize( srcband, None, dst_layer, -1, [], callback=None )
     
     dst_ds.FlushCache()
