@@ -75,7 +75,7 @@
           <div class="tab-content">
             <div id="parameters" class="tab-pane active">
               <br>
-              <form action="{{ url_for('refresh_editor') }}" method="post">
+              <form action="{{ url_for('refresh_editor') }}" method="post" class="form-floating">
                 <input id="uuid_fname" name="uuid_fname" type="hidden" value={{id}}>
                 <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="usrnscale" value="{{usr_nscale}}" name="usrnscale">
