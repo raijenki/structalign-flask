@@ -122,8 +122,8 @@ def make_shp(imgname):
             zip.write(file)
 
 def make_gtif(imgname):
-    STATIC_FOLDER = '/app/static/'
-    app.config['TMP_FOLDER'] = STATIC_FOLDER
+    STATIC_FOLDER = '/app/app/static/'
+    app.config['STATIC_FOLDER'] = STATIC_FOLDER
     origname = os.path.join(app.config['STATIC_FOLDER'], imgname + '.tif')
     fusedname = os.path.join(STATIC_FOLDER, imgname + '_fused.png') 
     gtif = os.path.join(STATIC_FOLDER, imgname + '_geotiff.tif') 
