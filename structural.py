@@ -41,8 +41,8 @@ def calculate(imgfile, uuid_fname, usr_nscale, usr_norient, usr_minWaveLength, u
     grayscale = rgb2gray(data)
     
     # If 16-bit, convert it to 8-bit
-    if data.astype('uint16'):
-        data = (image >> 8).astype('uint8')
+    if grayscale.astype('uint16'):
+        grayscale = grayscale.astype('uint8')
 
 
     # Calculate standard deviation
