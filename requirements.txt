@@ -6,6 +6,7 @@ click==7.1.2
 cycler==0.10.0
 decorator==4.4.2
 Flask==1.1.2
+imagecodecs
 pygdal==2.4.0.6
 imageio==2.9.0
 itsdangerous==1.1.0
