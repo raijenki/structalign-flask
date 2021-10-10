@@ -14,7 +14,7 @@ Deploying is a matter of installing all requirements listed on `requirements.txt
 
 If deploying on Heroku, both buildpacks [raijenki/heroku-geo-buildpack-apt](https://github.com/raijenki/heroku-geo-buildpack-apt) and [heroku/heroku-buildpack-python](https://github.com/heroku/heroku-buildpack-python) must be used in this order.
 
-# Running (offline)
+## Running (offline)
 You can invoke batch.py to execute a list of files in the `list.txt` file.
  
  ## References
