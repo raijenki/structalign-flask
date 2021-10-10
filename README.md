@@ -8,11 +8,14 @@ This is a flask application built for structural alignment detections on the pre
  
  A deployed version can be seen [here](https://magstruct.herokuapp.com/).
 
-## Running
+## Running (web)
 
 Deploying is a matter of installing all requirements listed on `requirements.txt` and changing the absolute paths that are on `structural.py` and `app/views.py`. After this, just set the environment variable `FLASK_APP=run.py` and use the `flask run` command. 
 
 If deploying on Heroku, both buildpacks [raijenki/heroku-geo-buildpack-apt](https://github.com/raijenki/heroku-geo-buildpack-apt) and [heroku/heroku-buildpack-python](https://github.com/heroku/heroku-buildpack-python) must be used in this order.
 
+# Running (offline)
+You can invoke batch.py to execute a list of files in the `list.txt` file.
+ 
  ## References
  E. Holden, J. C. Wong, P. Kovesi, D. Wedge, M. Dentith and L. Bagas. Identifying structural complexity in aeromagnetic data: An image analysis approach to greenfields gold exploration. Ore Geology Reviews, v. 46, p. 47-59. Elsevier, 2012.
